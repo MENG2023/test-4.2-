@@ -1,0 +1,367 @@
+实现二分查找
+1.前提必须要有一个有序的数组
+   public static int binarySearch (int[] array,int key) {
+      int left = 0;
+      int right = array.length-1;
+      while(left<=right) {
+    int mid = (left+right)/2;
+     if(array[mid] < key) {
+       left = mid+1;
+      } else if(array[mid] > key ) {
+          right = mid - 1;
+    } else {
+       return mid;
+    }
+  }
+ return -1;
+ }
+public static void mian(String[] args) {
+    int[] array = {2,4,16,18,10};
+    Array.Sort(array);
+   System.out.println(Arrays.binnarySearch(array,18));
+  }
+}
+
+
+
+
+数据库
+查询和视图
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| article            |
+| car_system         |
+| emply              |
+| exam_result        |
+| information_schema |
+| libiary            |
+| mysql              |
+| performance_schema |
+| school_system      |
+| student            |
+| students           |
+| sys                |
+| test_user          |
+| xscj               |
+| yggl2              |
++--------------------+
+15 rows in set (0.00 sec)
+
+mysql> use yggl2;
+Database changed
+mysql> select * from Employees;
++------------+-----------+-----------+------------+-----+----------+--------------------+-------------+--------------+
+| Employeeid | Name      | education | birthday   | sex | workyear | address            | phonenumber | departmentid |
++------------+-----------+-----------+------------+-----+----------+--------------------+-------------+--------------+
+| 000001     | 王林      | 大专      | 1996-01-23 | 1   |        8 | 中山路32-1-508     | 83355668    | 2            |
+| 010008     | 伍容华    | 本科      | 1976-03-28 | 1   |        3 | 北京东路100-2      | 83321321    | 1            |
+| 020010     | 王向容    | 硕士      | 1982-12-09 | 1   |        2 | 四牌楼10-0-108     | 83792361    | 1            |
+| 020018     | 李丽      | 大专      | 1960-07-30 | 0   |        6 | 中山东路102-2      | 833413301   | 1            |
+| 102201     | 刘明      | 本科      | 1972-10-18 | 1   |        3 | 虎距路100-2        | 83606608    | 5            |
+| 102208     | 朱俊      | 硕士      | 1965-09-28 | 1   |        2 | 牌楼巷5-3-106      | 84708817    | 5            |
+| 108991     | 钟敏      | 硕士      | 1979-08-10 | 0   |        4 | 中山路10-3-105     | 83346722    | 3            |
+| 111006     | 张石兵    | 本科      | 1974-10-01 | 1   |        1 | 解放路34-1-203     | 84563418    | 5            |
+| 210678     | 林涛      | 大专      | 1977-04-02 | 1   |        2 | 中山北路24-35      | 83467336    | 3            |
+| 302566     | 李玉珉    | 本科      | 1968-09-20 | 1   |        3 | 热和路209-3        | 58765991    | 4            |
+| 308759     | 叶凡      | 本科      | 1978-11-18 | 1   |        2 | 北京西路3-7-52     | 83308901    | 4            |
+| 504209     | 陈林琳    | 大专      | 1969-09-03 | 0   |        5 | 汉中路120-4-12     | 84468158    | 4            |
++------------+-----------+-----------+------------+-----+----------+--------------------+-------------+--------------+
+12 rows in set (0.00 sec)
+
+mysql> select 姓名,地址,学历from employees where 员工编号 like "%0_";
+ERROR 1054 (42S22): Unknown column '姓名' in 'field list'
+mysql>  select name,address,education from employees where 员工编号 like "%0_";
+ERROR 1054 (42S22): Unknown column '员工编号' in 'where clause'
+mysql> select name,address,education from employees where Employeeid like "%0_";
++-----------+-------------------+-----------+
+| name      | address           | education |
++-----------+-------------------+-----------+
+| 王林      | 中山路32-1-508    | 大专      |
+| 伍容华    | 北京东路100-2     | 本科      |
+| 刘明      | 虎距路100-2       | 本科      |
+| 朱俊      | 牌楼巷5-3-106     | 硕士      |
+| 张石兵    | 解放路34-1-203    | 本科      |
+| 陈林琳    | 汉中路120-4-12    | 大专      |
++-----------+-------------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from Employees
+    ->    where DepartmentID =
+    ->            (select DepartmentID
+    ->                  from Departments
+    ->                  where Departments
+    ->                  where DepartmentName = '广告部'
+    ->                   );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where DepartmentName = '广告部'
+                  )' at line 6
+mysql> select * from Employees
+    ->     ->    where DepartmentID =
+    ->     ->            (select DepartmentID
+    ->     ->                  from Departments
+    ->        where DepartmentName = '广告部'
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '->    where DepartmentID =
+    ->            (select DepartmentID
+    ->        ' at line 2
+mysql> select * from Employees
+    ->    where DepartmentID=
+    ->   (select DepartmentID
+    ->           from Departments
+    ->            where DepartmentName = '广告部'
+    -> );
++------------+-----------+-----------+------------+-----+----------+-------------------+-------------+--------------+
+| Employeeid | Name      | education | birthday   | sex | workyear | address           | phonenumber | departmentid |
++------------+-----------+-----------+------------+-----+----------+-------------------+-------------+--------------+
+| 010008     | 伍容华    | 本科      | 1976-03-28 | 1   |        3 | 北京东路100-2     | 83321321    | 1            |
+| 020010     | 王向容    | 硕士      | 1982-12-09 | 1   |        2 | 四牌楼10-0-108    | 83792361    | 1            |
+| 020018     | 李丽      | 大专      | 1960-07-30 | 0   |        6 | 中山东路102-2     | 833413301   | 1            |
++------------+-----------+-----------+------------+-----+----------+-------------------+-------------+--------------+
+3 rows in set (0.01 sec)
+
+mysql> select Name
+    ->   from Employees
+    ->   where EmployeeID in
+    ->    (select EmployeeID
+    ->         from Salary
+    ->       where InCome > all
+    ->        (select InCome
+    ->             from Salary
+    ->             where EmployeeID in
+    ->                (select EmployeeID
+    ->                     from Employees
+    ->                     where DepartmentID =
+    ->                       (select DepartmentID
+    ->                             from Departments
+    ->                                where DepartmentName = '广告部'
+    ->               0
+    ->               )
+    -> )
+    -> )
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '0
+              )
+)
+)
+)' at line 16
+mysql>  select Name
+    ->     ->   from Employees
+    ->     ->   where EmployeeID in
+    ->     ->    (select EmployeeID
+    ->     ->         from Salary
+    ->     ->       where InCome > all
+    ->     ->        (select InCome
+    ->     ->             from Salary
+    ->     ->             where EmployeeID in
+    ->     ->                (select EmployeeID
+    ->     ->                     from Employees
+    ->     ->                     where DepartmentID =
+    ->     ->                       (select DepartmentID
+    ->     ->                             from Departments
+    ->     ->                                where DepartmentName = '广告部'
+    ->                  )
+    ->               )
+    ->            )
+    ->   );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Employees
+    ->   where EmployeeID in
+    ->    (select EmployeeID
+    -> ' at line 2
+mysql>  select Name
+    ->     ->   from Employees
+    ->     ->   where EmployeeID in
+    ->     ->    (select EmployeeID
+    ->     ->         from Salary
+    ->     ->       where InCome > all
+    ->     ->        (select InCome
+    ->     ->             from Salary
+    ->     ->             where EmployeeID in
+    ->     ->                (select EmployeeID
+    ->     ->                     from Employees
+    ->     ->                     where DepartmentID =
+    ->     ->                       (select DepartmentID
+    ->     ->                             from Departments
+    ->     ->                                where Department
+    ->
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from Employees
+    ->   where EmployeeID in
+    ->    (select EmployeeID
+    -> ' at line 2
+mysql> select Name
+    ->   from Employees
+    ->      where EmployeeID in
+    ->        (select EmployeeID
+    ->              from Salary
+    ->            where InCome > all
+    ->               (select InCome
+    ->                  from Salary
+    ->                    where EmployeeID in
+    ->                 (select EmployeeID
+    ->                    from Employees
+    ->                   where DepartmentID =
+    ->                        (select DepartmentID
+    ->                             from Departments
+    ->                            where DepartmentName = '广告部'
+    ->                          )
+    ->                    )
+    ->            )
+    -> );
++-----------+
+| Name      |
++-----------+
+| 钟敏      |
+| 李玉珉    |
++-----------+
+2 rows in set (0.00 sec)
+
+mysql> select DepartmentName
+    ->  from Departments join Employees
+    ->  on Departments. DepartmentID = Employees.DepartmentID
+    ->   where Employee.Name = '王林';
+ERROR 1054 (42S22): Unknown column 'Employee.Name' in 'where clause'
+mysql> select DepartmentName
+    ->  from Departments join Employees
+    -> on Departments. DepartmentID = Employees.DepartmentID
+    -> where Employees.Name = '王林';
++-----------------+
+| DepartmentName  |
++-----------------+
+| 人力资源部      |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> select Sex,COUNT(Sex)
+    ->  from Employees
+    -> group by Sex;
++-----+------------+
+| Sex | COUNT(Sex) |
++-----+------------+
+| 1   |          9 |
+| 0   |          3 |
++-----+------------+
+2 rows in set (0.00 sec)
+
+mysql> select DepartmentName,COUNT(*) AS 人数
+    ->  from Employees,Departments
+    -> where Employees.DepartmentID = Departments.DepartmentID
+    -> group by Employees.DepartmentID
+    -> having COUNT(*) > 2;
++----------------+--------+
+| DepartmentName | 人数   |
++----------------+--------+
+| 广告部         |      3 |
+| 市场部         |      3 |
+| 研发部         |      3 |
++----------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select EmployeeID
+    ->  from Employees
+    -> order by EmployeeID DESC;
++------------+
+| EmployeeID |
++------------+
+| 504209     |
+| 308759     |
+| 302566     |
+| 210678     |
+| 111006     |
+| 108991     |
+| 102208     |
+| 102201     |
+| 020018     |
+| 020010     |
+| 010008     |
+| 000001     |
++------------+
+12 rows in set (0.00 sec)
+
+mysql> create or replace
+    -> view DS_VIEW
+    -> as select * from Departments;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create or replace
+    ->  view Employees_view(EmployeeID,Name,RealIncome)
+    ->  as
+    -> select Employees.EmployeeID,Name,InCome-OutCome
+    -> from Employees,Salary
+    -> where Employees.EmployeeID = Salary.EmployeeID;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into DS_VIEW values('6','财务部','财务管理');
+ERROR 1062 (23000): Duplicate entry '6' for key 'PRIMARY'
+mysql> select DepartmentName
+    -> from DS_VIEW
+    -> where DepartmentID = '3';
++-----------------+
+| departmentname  |
++-----------------+
+| 经理办公室      |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> select RealIncome
+    -> from Employees_view
+    -> where Name = '王林';
++--------------------+
+| RealIncome         |
++--------------------+
+| 1977.7100524902344 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into DS_VIEW  values('6','财务部','财务管理');
+ERROR 1062 (23000): Duplicate entry '6' for key 'PRIMARY'
+mysql>  insert into DS_VIEW  values('6'key primary,'财务部','财务管理');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key primary,'财务部','财务管理')' at line 1
+mysql>  insert into DS_VIEW  values('6 key primary','财务部','财务管理');
+ERROR 1406 (22001): Data too long for column 'departmentid' at row 1
+mysql>  insert into DS_VIEW  values key primary('6','财务部','财务管理');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'key primary('6','财务部','财务管理')' at line 1
+mysql> desc DS_VIEW;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| departmentid   | char(3)  | NO   |     | NULL    |       |
+| departmentname | char(20) | NO   |     | NULL    |       |
+| note           | text     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> insert into DS_VIES values('6','财务部','财务管理');
+ERROR 1146 (42S02): Table 'yggl2.ds_vies' doesn't exist
+mysql> insert into DS_VIES values('6','财务部','财务管理');
+ERROR 1146 (42S02): Table 'yggl2.ds_vies' doesn't exist
+mysql> desc DS_VIEW;
++----------------+----------+------+-----+---------+-------+
+| Field          | Type     | Null | Key | Default | Extra |
++----------------+----------+------+-----+---------+-------+
+| departmentid   | char(3)  | NO   |     | NULL    |       |
+| departmentname | char(20) | NO   |     | NULL    |       |
+| note           | text     | YES  |     | NULL    |       |
++----------------+----------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into DS_VIEW values ('6','财务部','财务管理');
+ERROR 1062 (23000): Duplicate entry '6' for key 'PRIMARY'
+mysql> update DS_VIEW
+    ->  set DepartmentName = '生产车间'
+    -> where DepartmentID = '5';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delect fro DS_VIEW
+    -> where DepartmentID = '1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delect fro DS_VIEW
+where DepartmentID = '1'' at line 1
+mysql> delect from DS_VIEW
+    -> where DepartmentID = '1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delect from DS_VIEW
+where DepartmentID = '1'' at line 1
+mysql> delete from DS_VIEW
+    ->  where DepartmentID = '1';
+Query OK, 1 row affected (0.01 sec)
